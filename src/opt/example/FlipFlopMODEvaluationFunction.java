@@ -9,10 +9,11 @@ import shared.Instance;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class FlipFlopEvaluationFunction implements EvaluationFunction {
+public class FlipFlopMODEvaluationFunction implements EvaluationFunction {
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
+	 /* modified to favour a 1 at the start */
 	 public long fevals;
     public double value(Instance d) {
         Vector data = d.getData();
@@ -22,6 +23,9 @@ public class FlipFlopEvaluationFunction implements EvaluationFunction {
                 val++;
             }
         }
+		if (data.get(0) >0) {
+			val=val+10;	
+		}
 		this.fevals = this.fevals + 1;
         return val;
     }

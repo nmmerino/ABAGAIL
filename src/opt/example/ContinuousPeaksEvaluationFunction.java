@@ -1,19 +1,18 @@
+/*
+ * Decompiled with CFR 0_123.
+ */
 package opt.example;
 
-import util.linalg.Vector;
 import opt.EvaluationFunction;
 import shared.Instance;
+import util.linalg.Vector;
 
-/**
- * A continuous peaks function
- * @author Andrew Guillory gtg008g@mail.gatech.edu
- * @version 1.0
- */
 public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
     /**
      * The t value
      */
     private int t;
+    public long fevals;
     
     /**
      * Make a new continuous peaks function
@@ -32,24 +31,38 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
         int count = 0;
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i) == 0) {
-                max0 = Math.max(max0, ++count);
+                count++;
             } else {
+                if (count > max0) {
+                    max0 = count;
+                }
                 count = 0;
             }
+        }
+        if (count > max0) {
+            max0 = count;
         }
         int max1 = 0;
         count = 0;
         for (int i = 0; i < data.size(); i++) {
             if (data.get(i) == 1) {
-                max1 = Math.max(max1, ++count);
+                count++;
             } else {
+                if (count > max1) {
+                    max1 = count;
+                }
                 count = 0;
             }
+        }
+        if (count > max1) {
+            max1 = count;
         }
         int r = 0;
         if (max1 > t && max0 > t) {
             r = data.size();
         }
+        ++this.fevals;
         return Math.max(max1, max0) + r;
     }
 }
+
